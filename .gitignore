@@ -14,12 +14,13 @@ env/
 .mypy_cache/
 .ruff_cache/
 
-# ---- 生成产物（看板 HTML / 抓取数据缓存）----
+# ---- 生成产物（看板 HTML / 抓取数据缓存 / 打包 zip）----
 每日财经新闻_*.html
 *_板块分类.html
 output/
 data/
 *.log
+*.zip
 
 # ---- 编辑器 / 系统 ----
 .DS_Store
