@@ -1,5 +1,5 @@
 # .github/workflows/publish.yml
-# 作用：在 GitHub Actions 中用 ghpub 自动发布（创建 Release）。
+# 作用：在 GitHub Actions 中用 ghpub 自动发布（创建 Release，并把 Skill 打包成 zip 作为附件）。
 # 触发器：推送 v* 标签，或手动 workflow_dispatch。
 # 使用方式：
 #   1) 把本文件复制到你的 Skill/项目仓库的 .github/workflows/publish.yml
@@ -54,7 +54,27 @@ jobs:
           fi
           ghpub --version
 
-      - name: 发布（建仓/推送/Release）
+      - name: 打包 Skill zip（作为 Release 附件）
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # 包内顶层目录名，默认用仓库名
+          PKGDIR="${GITHUB_REPOSITORY##*/}"
+          PKG="${PKGDIR}_v${VERSION}.zip"
+
+          # 只打包 Skill 内容，排除仓库级/CI 文件与生成产物
+          STAGE="$(mktemp -d)"
+          mkdir -p "$STAGE/$PKGDIR"
+          for item in LICENSE README.md SKILL.md CHANGELOG.md manifest.json scripts; do
+            if [ -e "$item" ]; then cp -R "$item" "$STAGE/$PKGDIR/"; fi
+          done
+          find "$STAGE" -name '__pycache__' -type d -prune -exec rm -rf {} + 2>/dev/null || true
+          find "$STAGE" -name '*.pyc' -delete 2>/dev/null || true
+
+          ( cd "$STAGE" && zip -r -q "$OLDPWD/$PKG" "$PKGDIR" )
+          echo "已生成附件: $PKG ($(du -h "$PKG" | cut -f1))"
+          echo "PKG=$PKG" >> "$GITHUB_ENV"
+
+      - name: 发布（建仓/推送/Release + 附件）
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -67,4 +87,4 @@ jobs:
           if [ -z "${CHANGELOG}" ]; then
             CHANGELOG="自动发布"
           fi
-          ghpub publish . --release --version "${VERSION}" --changelog "${CHANGELOG}"
+          ghpub publish . --release --version "${VERSION}" --changelog "${CHANGELOG}" --asset "${PKG}"
