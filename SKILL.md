@@ -2,11 +2,11 @@
 name: daily-finance-dashboard
 display_name: 每日财经新闻看板
 display_name_en: Daily Finance News Dashboard
-version: 1.0.0
+version: 1.0.1
 description_zh: 每日财经新闻自动抓取与看板生成 —— 抓取东方财富宏观政策/财经要闻双栏目，按利好/利空/中性情绪 + 15 类行业板块 + 个股三维分类，生成零依赖自包含离线看板 HTML；KPI 卡与板块菜单可点击聚合过滤，新闻行点击弹出详情（摘要/判定依据关键词/原文链接），支持 10 分钟周期自动刷新（脚本常驻 --loop 或页面倒计时自载入）。
 description_en: "Daily finance news scraper and dashboard generator: fetches EastMoney macro-policy and market-news columns, classifies by sentiment (bullish/bearish/neutral), 15 industry sectors and individual stocks, and produces a zero-dependency self-contained HTML dashboard with clickable KPI/sector aggregation filters, per-news detail popups (summary, evidence keywords, source link), and optional 10-minute auto refresh."
 description: |
-  每日财经新闻看板 Skill v1.0.0。一条命令完成「抓取 → 三维分类 → 看板生成」：
+  每日财经新闻看板 Skill v1.0.1。一条命令完成「抓取 → 三维分类 → 看板生成」：
     抓取：东方财富资讯列表 API（column 345 宏观政策 / 344 财经要闻），公开接口，仅需标准库；
     分类：情绪（利好/利空关键词权重打分）+ 15 类行业板块词典 + 60 只常用 A 股个股识别；
     看板：自包含离线 HTML（零 CDN / 内联样式 / 原生 JS），紧凑单行排版，吸顶板块菜单；
