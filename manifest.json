@@ -1,0 +1,27 @@
+{
+  "name": "daily-finance-dashboard",
+  "version": "1.0.0",
+  "generated_at": "2026-11-03 15:38:25",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "1126322e2cc8d165adc4c792eeb195717de2bcc7b39be1ce77959d78e87ef685",
+      "bytes": 1056
+    },
+    {
+      "path": "README.md",
+      "sha256": "b01850901312dd01656010f3b65dba7662d70406feb0e1a2265bdbf743234b63",
+      "bytes": 1971
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "c7338bb8edb4d0a8190653b6126ab9dac1e078dfa84c014e2a3f80c0e91c8593",
+      "bytes": 6519
+    },
+    {
+      "path": "scripts/refresh_daily_news.py",
+      "sha256": "9fa2c2ee26859f67e199ef9f3d3e7ce3be89bfc04bcb95daf77e149b3e348c00",
+      "bytes": 23224
+    }
+  ]
+}
