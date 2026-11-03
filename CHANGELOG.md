@@ -9,6 +9,16 @@
 
 （暂无）
 
+## [1.0.1] - 2026-11-03
+
+### 新增
+- 接入 GitHub Actions 自动发版工作流（`.github/workflows/publish.yml`）：推送 `v*` 标签或手动触发时，自动打包 Skill zip 并创建带附件的 GitHub Release。
+
+### 变更
+- 仓库工程化：新增 `.gitignore`（忽略 Python 缓存与生成产物）与本 CHANGELOG。
+- 版本号统一至 1.0.1（`SKILL.md` / `README.md` / `manifest.json` / 脚本头注释）。
+- Skill 功能与分类词典无变化，与 1.0.0 完全兼容。
+
 ## [1.0.0] - 2026-11-03
 
 ### 新增
@@ -30,5 +40,6 @@
 - 零第三方依赖，仅使用 Python 3.8+ 标准库。
 - 产物 HTML 内联样式与原生 JS，无 CDN，断网可用。
 
-[Unreleased]: https://github.com/henrychen8888/daily-finance-dashboard/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/henrychen8888/daily-finance-dashboard/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/henrychen8888/daily-finance-dashboard/releases/tag/v1.0.1
 [1.0.0]: https://github.com/henrychen8888/daily-finance-dashboard/releases/tag/v1.0.0
