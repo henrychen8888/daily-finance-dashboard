@@ -61,23 +61,31 @@ jobs:
           PKGDIR="${GITHUB_REPOSITORY##*/}"
           PKG="${PKGDIR}_v${VERSION}.zip"
 
+          # 产出到 RUNNER_TEMP（仓库目录之外），避免被 git 提交进仓库
+          OUT="${RUNNER_TEMP}/pkg"
+          STAGE="${RUNNER_TEMP}/stage"
+          rm -rf "$OUT" "$STAGE"
+          mkdir -p "$OUT" "$STAGE/$PKGDIR"
+
           # 只打包 Skill 内容，排除仓库级/CI 文件与生成产物
-          STAGE="$(mktemp -d)"
-          mkdir -p "$STAGE/$PKGDIR"
           for item in LICENSE README.md SKILL.md CHANGELOG.md manifest.json scripts; do
             if [ -e "$item" ]; then cp -R "$item" "$STAGE/$PKGDIR/"; fi
           done
           find "$STAGE" -name '__pycache__' -type d -prune -exec rm -rf {} + 2>/dev/null || true
           find "$STAGE" -name '*.pyc' -delete 2>/dev/null || true
 
-          ( cd "$STAGE" && zip -r -q "$OLDPWD/$PKG" "$PKGDIR" )
-          echo "已生成附件: $PKG ($(du -h "$PKG" | cut -f1))"
-          echo "PKG=$PKG" >> "$GITHUB_ENV"
+          ( cd "$STAGE" && zip -r -q "$OUT/$PKG" "$PKGDIR" )
+          echo "已生成附件: $PKG ($(du -h "$OUT/$PKG" | cut -f1))"
+          echo "PKG=$OUT/$PKG" >> "$GITHUB_ENV"
 
       - name: 发布（建仓/推送/Release + 附件）
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # ghpub 的 git 模式在检测到变更时会 commit，CI runner 需先配置 git 身份
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           # 版本号取自标签名（去掉前缀 v）；changelog 优先级：手动输入 > 标签名 > 默认
           VERSION="${GITHUB_REF_NAME#v}"
           CHANGELOG="${{ github.event.inputs.changelog }}"
